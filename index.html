@@ -10,9 +10,10 @@
 
   <style>
     :root {
+      /* Dark Mode Variables */
       --background-color: #1F2933;
       --card-color: #222B35;
-      --accent-color: #0EAC9F;
+      --accent-color: #0EAC9F; /* Changed from gold to a teal color for better contrast */
       --text-color: #F4F6F8;
       --border-color: #333B47;
       --font-family: 'Montserrat', sans-serif;
@@ -20,6 +21,15 @@
       /* Slider dimension */
       --slider-width: 600px;
       --slider-height: 300px;
+    }
+
+    /* Light Mode Variables */
+    .light-mode {
+      --background-color: #FFFFFF; /* White background */
+      --card-color: #F9F9F9; /* Light card */
+      --accent-color: #DAA520; /* Bright Gold */
+      --text-color: #333333; /* Dark text */
+      --border-color: #E0E0E0; /* Light border */
     }
 
     /* RESET & BODY */
@@ -34,13 +44,14 @@
       color: var(--text-color);
       line-height: 1.6;
       scroll-behavior: smooth;
-      /* So that our reveals look good from the top */
       overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     a {
       text-decoration: none;
       color: var(--accent-color);
+      transition: color 0.3s ease;
     }
     a:hover {
       text-decoration: underline;
@@ -49,16 +60,17 @@
     /* COVER PAGE */
     .cover-page {
       min-height: 100vh;
-      background: linear-gradient(to bottom right, #0EAC9F 30%, #1F2933 100%);
+      background: linear-gradient(to bottom right, var(--accent-color) 30%, var(--background-color) 100%);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      color: #fff;
+      color: var(--text-color);
       padding: 3rem 1.5rem;
       position: relative;
       overflow: hidden;
+      transition: background 0.3s ease;
     }
     .cover-page h1 {
       font-size: 2.5rem;
@@ -66,6 +78,14 @@
       opacity: 0;
       transform: translateY(20px);
       animation: fadeInUp 1.2s ease forwards 0.2s;
+      color: var(--accent-color);
+    }
+    /* Adjust h1 color in dark mode */
+    body:not(.light-mode) .cover-page h1 {
+      color: var(--text-color);
+    }
+    body.light-mode .cover-page h1 {
+      color: #333333; /* Changed from var(--accent-color) to dark gray for better readability */
     }
     .cover-page p {
       max-width: 600px;
@@ -77,25 +97,25 @@
     }
     .btn-cover {
       margin-top: 2rem;
-      background-color: #fff;
-      color: #0EAC9F;
+      background-color: var(--accent-color);
+      color: #FFFFFF;
       font-weight: 700;
       padding: 0.8rem 1.5rem;
       border-radius: 4px;
       border: none;
       cursor: pointer;
-      transition: background-color 0.2s ease;
+      transition: background-color 0.3s ease;
       opacity: 0;
       transform: translateY(20px);
       animation: fadeInUp 1.2s ease forwards 0.8s;
     }
     .btn-cover:hover {
-      background-color: #f0f0f0;
+      background-color: #0D8C86; /* Darker teal on hover */
     }
 
     /* HEADER & NAV */
     header {
-      background-color: #161D25;
+      background-color: var(--background-color);
       padding: 1rem 1.5rem;
       display: flex;
       justify-content: space-between;
@@ -103,11 +123,13 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: background-color 0.3s ease;
     }
     .logo {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      color: var(--text-color);
+      color: var(--accent-color);
     }
     nav ul {
       list-style: none;
@@ -117,10 +139,50 @@
     nav ul li a {
       color: var(--text-color);
       font-weight: 600;
-      transition: color 0.2s ease;
+      transition: color 0.3s ease;
     }
     nav ul li a:hover {
       color: var(--accent-color);
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .theme-toggle input {
+      display: none;
+    }
+    .theme-toggle label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      width: 50px;
+      height: 24px;
+      background-color: #ccc;
+      border-radius: 12px;
+      transition: background-color 0.3s ease;
+    }
+    .theme-toggle label::before {
+      content: '🌙'; /* Moon icon */
+      position: absolute;
+      left: 6px;
+      font-size: 16px;
+    }
+    .theme-toggle label::after {
+      content: '☀️'; /* Sun icon */
+      position: absolute;
+      right: 6px;
+      font-size: 16px;
+    }
+    .theme-toggle input:checked + label {
+      background-color: var(--accent-color);
+    }
+    .theme-toggle input:checked + label::after {
+      transform: translateX(26px);
     }
 
     /* Sections */
@@ -142,9 +204,11 @@
       border-radius: 6px;
       border: 1px solid var(--border-color);
       margin-bottom: 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
     }
     .section-content h3 {
-      color: var(--text-color);
+      color: var(--accent-color);
       margin-top: 1rem;
       font-weight: 600;
     }
@@ -157,11 +221,12 @@
     }
     .pricing-column {
       flex: 1 1 300px;
-      background-color: #2A3340;
+      background-color: var(--card-color);
       padding: 1rem;
       border-radius: 6px;
       border: 1px solid var(--border-color);
-      margin-bottom: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
     }
     .pricing-column h4 {
       margin-bottom: 0.5rem;
@@ -181,7 +246,13 @@
       border-bottom: 1px solid var(--border-color);
     }
     table thead {
-      background-color: #2A3340;
+      background-color: var(--accent-color); /* Muted Gold in Dark Mode */
+      color: #FFFFFF;
+    }
+    /* Adjust table header color in light mode if needed */
+    body.light-mode table thead {
+      background-color: var(--accent-color);
+      color: #FFFFFF;
     }
 
     /* Buttons */
@@ -191,32 +262,36 @@
       border: none;
       border-radius: 4px;
       background-color: var(--accent-color);
-      color: #fff;
+      color: #FFFFFF;
       font-weight: 600;
       margin-top: 1rem;
       cursor: pointer;
-      transition: background-color 0.2s ease;
+      transition: background-color 0.3s ease;
     }
     .btn:hover {
-      background-color: #0B857E;
+      background-color: #0D8C86; /* Darker teal on hover */
     }
 
     /* Mortgage & Toggles */
     #tenYearBreakdown {
       display: none;
       margin-top: 1rem;
-      background-color: #2A3340;
+      background-color: var(--card-color);
       padding: 1rem;
       border-radius: 6px;
       border: 1px solid var(--border-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
     }
     #mortgageSection {
       display: none;
       margin-top: 1rem;
-      background-color: #2A3340;
+      background-color: var(--card-color);
       padding: 1rem;
       border-radius: 6px;
       border: 1px solid var(--border-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
     }
     .mortgage-inputs {
       display: grid;
@@ -237,6 +312,7 @@
     #downPaymentLabel {
       min-width: 45px;
       text-align: right;
+      color: var(--text-color);
     }
 
     /* Slider for images */
@@ -246,11 +322,14 @@
       margin: 1rem auto;
       overflow: hidden;
       position: relative;
-      border: 2px solid var(--border-color);
+      /* Removed border */
+      border: none;
       border-radius: 6px;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.6s ease, transform 0.6s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      background-color: var(--card-color);
     }
     .slider-wrapper {
       display: flex;
@@ -267,10 +346,12 @@
     .slider-slide img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      /* subtle fade for each slide */
+      object-fit: contain; /* Changed to contain for better image display */
       opacity: 0;
       animation: fadeInSlide 0.8s forwards;
+      border-radius: 6px;
+      /* Removed border */
+      border: none;
     }
     .slider-nav {
       position: absolute;
@@ -279,27 +360,61 @@
       display: flex;
       justify-content: space-between;
       transform: translateY(-50%);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .slider-container:hover .slider-nav {
+      opacity: 1;
+      visibility: visible;
     }
     .slider-nav button {
-      background-color: rgba(0,0,0,0.3);
-      color: #fff;
+      background-color: rgba(14, 172, 159, 0.8); /* Semi-transparent teal */
+      color: #FFFFFF;
       border: none;
       font-size: 1.2rem;
       padding: 0.5rem 1rem;
       cursor: pointer;
       border-radius: 4px;
-      transition: background-color 0.2s;
+      transition: background-color 0.3s ease;
+      /* Initially hidden */
+      opacity: 0;
+      visibility: hidden;
+    }
+    .slider-container:hover .slider-nav button {
+      opacity: 1;
+      visibility: visible;
     }
     .slider-nav button:hover {
-      background-color: rgba(0,0,0,0.6);
+      background-color: rgba(13, 140, 134, 0.8); /* Darker teal on hover */
     }
 
     /* Footer */
     footer {
-      background-color: #161D25;
+      background-color: var(--background-color);
       text-align: center;
       padding: 1rem 1.5rem;
-      color: #fff;
+      color: var(--text-color);
+      position: relative;
+      box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Print Button (placed near the footer) */
+    .print-btn {
+      display: inline-block;
+      margin-top: 1rem;
+      background-color: var(--accent-color);
+      color: #FFFFFF;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .print-btn:hover {
+      background-color: #0D8C86; /* Darker teal on hover */
     }
 
     /* Animations */
@@ -339,6 +454,29 @@
       transform: translateY(0);
     }
 
+    /****************************************************
+     * @media print: Make it A4-friendly
+     ****************************************************/
+    @media print {
+      @page {
+        size: A4;
+        margin: 20mm;
+      }
+      /* Hide certain interactive elements if desired */
+      .btn, .btn-cover, .print-btn, .slider-nav, .theme-toggle {
+        display: none !important;
+      }
+      /* You might also hide the nav bar or other UI only items */
+      header {
+        display: none;
+      }
+      /* Ensure your background doesn't print unless you want it to */
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+
     /* Responsive */
     @media screen and (max-width: 768px) {
       nav ul {
@@ -354,7 +492,7 @@
         height: auto;
       }
       .slider-wrapper {
-        width: 400%;
+        width: calc(var(--slider-width) * 2); /* Adjusted for fewer slides on mobile */
       }
       .pricing-container {
         flex-direction: column;
@@ -362,19 +500,7 @@
     }
   </style>
 </head>
-<body onload="init()">
-
-  <!-- COVER PAGE -->
-  <div class="cover-page">
-    <h1>Landmark Development Pvt Ltd</h1>
-    <p>
-      We proudly present this unique mixed-use building in Malé, Maldives. 
-      Discover our flexible floor options, robust ROI, and easy financing solutions.
-    </p>
-    <button class="btn-cover" onclick="document.getElementById('devProfile').scrollIntoView({behavior:'smooth'})">
-      View Proposal
-    </button>
-  </div>
+<body class="dark-mode" onload="init()">
 
   <!-- HEADER -->
   <header>
@@ -390,7 +516,24 @@
         <li><a href="#timeline">Timeline</a></li>
       </ul>
     </nav>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+      <input type="checkbox" id="themeSwitch">
+      <label for="themeSwitch"></label>
+    </div>
   </header>
+
+  <!-- COVER PAGE -->
+  <div class="cover-page">
+    <h1>Landmark Residence</h1>
+    <p>
+      We proudly present this unique mixed-use building in Malé, Maldives. 
+      Discover our flexible floor options, robust ROI, and easy financing solutions.
+    </p>
+    <button class="btn-cover" onclick="document.getElementById('devProfile').scrollIntoView({behavior:'smooth'})">
+      View Proposal
+    </button>
+  </div>
 
   <!-- SECTION: DEVELOPER PROFILE (moved above timeline) -->
   <section id="devProfile" class="reveal">
@@ -415,11 +558,11 @@
       <h3>Notable Projects</h3>
       <ul style="line-height:1.7;">
         <li><strong>Hulhumale Lot 11269 (2019)</strong>: 3 story residential building with 95% occupancy in 6 months.</li>
-        <li><strong>Hulhumale lot 11245 (2021)</strong>: 6 story residential builiding featuring modern design &amp; eco-friendly tech.</li>
-        <li><strong>Hulhumale lot 11192 (2022)</strong>: 6 story end user model serviced apartments.</li>
+        <li><strong>Hulhumale lot 11245 (2021)</strong>: 6 story residential building featuring modern design &amp; eco-friendly tech.</li>
+        <li><strong>Hulhumale lot 11192 (2022)</strong>: 6 story end-user model serviced apartments.</li>
         <li><strong>Ma.New Mexico (2023)</strong>: 10 story building with spacious and modern living facilities.</li>
         <li><strong>Manta Island Residence (2025)</strong>: 3 story building with warehouse and modern living facilities.</li>
-        <li><strong>Beach Estates at Goidhoo (2025)</strong>: 50,000 Sqft of toursit villa development.</li>
+        <li><strong>Beach Estates at Goidhoo (2025)</strong>: 50,000 Sqft of tourist villa development.</li>
       </ul>
     </div>
   </section>
@@ -447,7 +590,7 @@
     <div class="section-content">
       <div class="site-container" style="display: flex; flex-wrap: wrap; gap: 2rem;">
         <!-- Column 1: General Details -->
-        <div class="site-column" style="flex:1 1 300px; background-color:#2A3340; padding:1rem; border-radius:6px; border:1px solid var(--border-color);">
+        <div class="site-column" style="flex:1 1 300px; background-color: var(--card-color); padding:1rem; border-radius:6px; border:1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
           <h4 style="margin-bottom:0.5rem; color:var(--accent-color);">General Info</h4>
           <ul style="line-height:1.7;">
             <li>Land Area: <strong>2,850 sqft</strong></li>
@@ -459,7 +602,7 @@
         </div>
 
         <!-- Column 2: Floor Breakdown -->
-        <div class="site-column" style="flex:1 1 300px; background-color:#2A3340; padding:1rem; border-radius:6px; border:1px solid var(--border-color);">
+        <div class="site-column" style="flex:1 1 300px; background-color: var(--card-color); padding:1rem; border-radius:6px; border:1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
           <h4 style="margin-bottom:0.5rem; color:var(--accent-color);">Floor Breakdown &amp; Usage</h4>
           <ul style="line-height:1.7;">
             <li>Ground+Basement+Mezz: <strong>~4,000 sqft</strong></li>
@@ -513,8 +656,8 @@
       <h3>Nearby Places & Travel Distances</h3>
       <div class="site-container" style="display: flex; flex-wrap: wrap; gap: 2rem;">
         <!-- Column 1: Key Locations -->
-        <div class="site-column" style="flex: 1 1 300px; background-color: #2A3340; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
-          <h4 style="margin-bottom: 0.5rem; color: var(--accent-color);">Key Locations</h4>
+        <div class="site-column" style="flex: 1 1 300px; background-color: var(--card-color); padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+          <h4 style="margin-bottom: 0.5rem; color:var(--accent-color);">Key Locations</h4>
           <ul style="line-height: 1.7;">
             <li><strong>Malé Market (Local Produce)</strong> - <span style="color: var(--accent-color);">10 min walk</span></li>
             <li><strong>Male' Wholesale Market</strong> - <span style="color: var(--accent-color);">8 min walk</span></li>
@@ -525,8 +668,8 @@
           </ul>
         </div>
         <!-- Column 2: Transport & Connectivity -->
-        <div class="site-column" style="flex: 1 1 300px; background-color: #2A3340; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
-          <h4 style="margin-bottom: 0.5rem; color: var(--accent-color);">Transport & Connectivity</h4>
+        <div class="site-column" style="flex: 1 1 300px; background-color: var(--card-color); padding: 1rem; border-radius:6px; border:1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+          <h4 style="margin-bottom: 0.5rem; color:var(--accent-color);">Transport & Connectivity</h4>
           <ul style="line-height: 1.7;">
             <li><strong>Jetty No. 1 (Ferries & Boats)</strong> - <span style="color: var(--accent-color);">7 min walk</span></li>
             <li><strong>Velana International Airport</strong> - <span style="color: var(--accent-color);">10 min drive</span></li>
@@ -621,7 +764,7 @@
         </div>
 
         <!-- Mortgage Summary Row (above table) -->
-        <div id="mortgageSummaryRow" style="background-color:#2A3340; margin-top:1rem; padding:1rem; border-radius:6px; border:1px solid var(--border-color);">
+        <div id="mortgageSummaryRow" style="background-color: var(--card-color); margin-top:1rem; padding:1rem; border-radius:6px; border:1px solid var(--border-color); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
           <p id="mortgageSummaryText" style="margin:0; font-weight:600;"></p>
         </div>
         
@@ -647,13 +790,12 @@
   <section id="roiSection" class="reveal">
     <h2>ROI &amp; Rental Projections</h2>
     <div class="section-content">
-      <p>
-        <li>We apply a discrete <strong>2% vacancy loss every 3 years</strong> 
-          (Years 3, 6, 9...).</li> 
+      <ul style="line-height:1.7;">
+        <li>We apply a discrete <strong>2% vacancy loss every 3 years</strong> (Years 3, 6, 9...).</li> 
         <li>Rents rise 2% every 2 years.</li> 
         <li>Maintenance is MVR 1,500/month/floor.</li> 
-        <li>Management fee (2%) is optional. </li>
-      </p>
+        <li>Management fee (2%) is optional.</li>
+      </ul>
       <div style="margin-bottom:1rem;">
         <label>
           <input type="checkbox" id="mgmtFeeToggle"> 
@@ -711,7 +853,7 @@
     <h2>Resale &amp; Exit Strategy</h2>
     <div class="section-content">
       <p>
-      Below are short, mid, and long-term hold scenarios.
+        Below are short, mid, and long-term hold scenarios.
       </p>
       <div id="exitShortTerm" style="margin-top:1rem;">
         <h3>Short-Term (Years 3–8)</h3>
@@ -763,14 +905,14 @@
     </div>
   </section>
 
-
-
   <!-- SECTION 6: CONSTRUCTION TIMELINE -->
   <section id="timeline" class="reveal">
     <h2>Construction Timeline</h2>
     <div class="section-content">
-      <li><strong>Q4 2022</strong>: Agreement Signed</li>
-      <li><strong>Q4 2023</strong>: Drawings Submitted for Approval</li>
+      <ul style="line-height:1.7;">
+        <li><strong>Q4 2022</strong>: Agreement Signed</li>
+        <li><strong>Q4 2023</strong>: Drawings Submitted for Approval</li>
+      </ul>
       <h3>Construction begins <strong>Q3 2025</strong> upon permit approvals. 
         Target is a <strong>2-year</strong> total timeline:</h3>
       
@@ -844,7 +986,12 @@
   <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 Landmark Development Pvt Ltd | 
-      <a href="mailto:a@landmark.com.mv" style="color:#fff;">a@landmark.com.mv</a></p>
+      <a href="mailto:a@landmark.com.mv" style="color:var(--text-color);">a@landmark.com.mv</a>
+    </p>
+    <!-- Print Button -->
+    <button class="print-btn" onclick="window.print()">
+      Print This Proposal
+    </button>
   </footer>
 
   <!-- JavaScript: ROI, Toggles, Discrete Vacancy, Mortgage, etc. -->
@@ -886,18 +1033,19 @@
       roiTableBody.innerHTML= '';
 
       Object.entries(scenarioRates).forEach(([scenarioName, sqftPrice])=>{
-        let monthlyRent= sqftPrice* floorData.sqft;
-        let annualRent= monthlyRent*12;
-        let vacancyLoss= 0; // not applying discrete for Year1 summary row
-        let mgmtFee= mgmtActive? (annualRent* mgmtFeeRate/100):0;
-        let maintenanceYearly= monthlyMaintenanceFee*12;
-        let netIncome= annualRent- vacancyLoss- mgmtFee- maintenanceYearly;
+        let monthlyRent= sqftPrice * floorData.sqft;
+        let annualRent= monthlyRent * 12;
+        // No discrete vacancy in Year1 summary row
+        let vacancyLoss= 0; 
+        let mgmtFee= mgmtActive ? (annualRent * mgmtFeeRate / 100) : 0;
+        let maintenanceYearly= monthlyMaintenanceFee * 12;
+        let netIncome= annualRent - vacancyLoss - mgmtFee - maintenanceYearly;
 
         let annualROI=0;
         if(totalPurchase>0) {
-          annualROI= Math.round((netIncome/ totalPurchase)*100);
+          annualROI= Math.round((netIncome / totalPurchase) * 100);
         }
-        let recovery= netIncome>0? (totalPurchase/netIncome).toFixed(1): '∞';
+        let recovery= netIncome>0 ? (totalPurchase / netIncome).toFixed(1) : '∞';
 
         const tr= document.createElement('tr');
         tr.innerHTML=`
@@ -911,6 +1059,7 @@
         roiTableBody.appendChild(tr);
       });
 
+      // If the 10-year breakdown is open, rebuild it
       if(document.getElementById('tenYearBreakdown').style.display==='block') {
         buildTenYearTables();
       }
@@ -949,7 +1098,7 @@
         table.style.width='100%';
         table.innerHTML= `
           <thead>
-            <tr style="background-color:#2A3340;">
+            <tr style="background-color: var(--accent-color); color: #FFFFFF;">
               <th style="padding:0.6rem;">Year</th>
               <th>Monthly Rent</th>
               <th>Vacancy Loss</th>
@@ -964,20 +1113,20 @@
         scenarioDiv.appendChild(table);
         const tbody= table.querySelector('tbody');
 
-        let monthlyRent= sqftPrice* floorData.sqft;
+        let monthlyRent= sqftPrice * floorData.sqft;
         let cumulative=0;
 
         for(let y=1; y<=10; y++){
           // escalate every 2 yrs
           if(y>1 && (y%2===1)) {
-            monthlyRent*= (1+ rentIncreaseRate);
+            monthlyRent *= (1 + rentIncreaseRate);
           }
-          let annualRent= monthlyRent*12;
-          let vacancy= (y%3===0)? (annualRent*0.02) : 0;
-          let mgmtFeeVal= mgmtActive? (annualRent*mgmtFeeRate/100) : 0;
-          let maintenanceYearly= monthlyMaintenanceFee*12;
-          let net= annualRent- vacancy - mgmtFeeVal - maintenanceYearly;
-          cumulative+= net;
+          let annualRent= monthlyRent * 12;
+          let vacancy= (y%3===0) ? (annualRent * 0.02) : 0;
+          let mgmtFeeVal= mgmtActive ? (annualRent * mgmtFeeRate / 100) : 0;
+          let maintenanceYearly= monthlyMaintenanceFee * 12;
+          let net= annualRent - vacancy - mgmtFeeVal - maintenanceYearly;
+          cumulative += net;
 
           const tr= document.createElement('tr');
           tr.innerHTML= `
@@ -1054,30 +1203,30 @@
       const renovationActive= document.getElementById('renovationToggle').checked;
 
       let basePrice= floorData.purchasePrice;
-      if(renovationActive) basePrice+= renovationCost;
+      if(renovationActive) basePrice += renovationCost;
 
       // appreciation every 2 years by 2%
       let periods= Math.floor(yrs/2);
       let finalVal= basePrice;
       for(let i=0; i<periods; i++){
-        finalVal*= (1+ rentIncreaseRate);
+        finalVal *= (1 + rentIncreaseRate);
       }
 
       // net rent w/ discrete vacancy
-      let monthlyRent= sqftPrice* floorData.sqft;
+      let monthlyRent= sqftPrice * floorData.sqft;
       let totalRent=0;
       for(let y=1; y<= yrs; y++){
         if(y>1 && (y%2===1)) {
-          monthlyRent*= (1+ rentIncreaseRate);
+          monthlyRent *= (1 + rentIncreaseRate);
         }
-        let annualRent= monthlyRent*12;
-        let vacancy= (y%3===0)? (annualRent*0.02) : 0; 
-        let mgmtFeeVal= mgmtActive? (annualRent* mgmtFeeRate/100): 0;
-        let maintenanceYearly= monthlyMaintenanceFee*12;
-        let net= annualRent- vacancy - mgmtFeeVal - maintenanceYearly;
-        totalRent+= net;
+        let annualRent= monthlyRent * 12;
+        let vacancy= (y%3===0) ? (annualRent * 0.02) : 0; 
+        let mgmtFeeVal= mgmtActive ? (annualRent * mgmtFeeRate / 100) : 0;
+        let maintenanceYearly= monthlyMaintenanceFee * 12;
+        let net= annualRent - vacancy - mgmtFeeVal - maintenanceYearly;
+        totalRent += net;
       }
-      let profit= (finalVal+ totalRent)- basePrice;
+      let profit= (finalVal + totalRent) - basePrice;
 
       return {
         totalRent: Math.round(totalRent),
@@ -1112,8 +1261,8 @@
       else if(mortgageOption==='ground') price=14580000;
       else price=7020000;
 
-      let dpAmount= Math.round(price*(dpVal/100));
-      let financed= price- dpAmount;
+      let dpAmount= Math.round(price * (dpVal / 100));
+      let financed= price - dpAmount;
 
       document.getElementById('loanAmount').textContent= financed.toLocaleString();
       document.getElementById('equityAmount').textContent= dpAmount.toLocaleString();
@@ -1134,8 +1283,8 @@
       else if(mortgageOption==='ground') price=14580000;
       else price=7020000;
 
-      let downPayment= Math.round(price*(dpVal/100));
-      let financedAmount= price- downPayment;
+      let downPayment= Math.round(price * (dpVal / 100));
+      let financedAmount= price - downPayment;
 
       // show summary above table
       const summary= document.getElementById('mortgageSummaryText');
@@ -1145,21 +1294,21 @@
         | Loan Amount: ${financedAmount.toLocaleString()}
       `;
 
-      let monthlyRate= interestRate/12;
-      let numMonths= loanYears*12;
+      let monthlyRate= interestRate / 12;
+      let numMonths= loanYears * 12;
       let monthlyPayment=0;
       if(monthlyRate>0){
-        monthlyPayment= financedAmount*(monthlyRate/(1- Math.pow(1+ monthlyRate, -numMonths)));
+        monthlyPayment= financedAmount * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -numMonths)));
       } else {
-        monthlyPayment= financedAmount/ numMonths;
+        monthlyPayment= financedAmount / numMonths;
       }
       let balance= financedAmount;
 
       for(let m=1; m<=numMonths; m++){
-        let interestPortion= balance*monthlyRate;
-        let principalPortion= monthlyPayment- interestPortion;
-        balance-= principalPortion;
-        if(balance<0) balance=0;
+        let interestPortion= balance * monthlyRate;
+        let principalPortion= monthlyPayment - interestPortion;
+        balance -= principalPortion;
+        if(balance < 0) balance = 0;
 
         const row= document.createElement('tr');
         row.innerHTML=`
@@ -1170,7 +1319,7 @@
           <td>${Math.round(balance).toLocaleString()}</td>
         `;
         mortgageTableBody.appendChild(row);
-        if(balance<=0) break;
+        if(balance <= 0) break;
       }
     }
 
@@ -1185,7 +1334,7 @@
       if(index<0) index= totalSlides-1;
       if(index>= totalSlides) index=0;
       currentSlide= index;
-      const offset= -1* currentSlide * parseInt(getComputedStyle(sliderWrapper).width)/ totalSlides;
+      const offset= -1 * currentSlide * parseInt(getComputedStyle(sliderWrapper).width) / totalSlides;
       sliderWrapper.style.transform= 'translateX('+ offset +'px)';
     }
     function prevSlide(){ showSlide(currentSlide-1);}
@@ -1214,6 +1363,20 @@
       buildMortgageTable();
       showSlide(0);
 
+      // Theme Toggle
+      const themeSwitch= document.getElementById('themeSwitch');
+      themeSwitch.addEventListener('change', toggleTheme);
+
+      // Apply saved theme preference
+      const savedTheme= localStorage.getItem('theme') || 'dark';
+      if(savedTheme === 'light'){
+        document.body.classList.add('light-mode');
+        themeSwitch.checked = true;
+      } else {
+        document.body.classList.remove('light-mode');
+        themeSwitch.checked = false;
+      }
+
       // Intersection Observer for reveals
       const revealObserver = new IntersectionObserver((entries)=>{
         entries.forEach(entry=>{
@@ -1234,6 +1397,16 @@
       document.querySelectorAll('.slider-container').forEach(slider=>{
         revealObserver.observe(slider);
       });
+    }
+
+    function toggleTheme(){
+      document.body.classList.toggle('light-mode');
+      // Save the user's preference in localStorage
+      if(document.body.classList.contains('light-mode')){
+        localStorage.setItem('theme', 'light');
+      } else {
+        localStorage.setItem('theme', 'dark');
+      }
     }
   </script>
 
