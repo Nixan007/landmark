@@ -34,6 +34,8 @@
       color: var(--text-color);
       line-height: 1.6;
       scroll-behavior: smooth;
+      /* So that our reveals look good from the top */
+      overflow-x: hidden;
     }
 
     a {
@@ -55,15 +57,23 @@
       text-align: center;
       color: #fff;
       padding: 3rem 1.5rem;
+      position: relative;
+      overflow: hidden;
     }
     .cover-page h1 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1.2s ease forwards 0.2s;
     }
     .cover-page p {
       max-width: 600px;
       margin: 0.5rem auto;
       line-height: 1.6;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1.2s ease forwards 0.5s;
     }
     .btn-cover {
       margin-top: 2rem;
@@ -75,6 +85,9 @@
       border: none;
       cursor: pointer;
       transition: background-color 0.2s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1.2s ease forwards 0.8s;
     }
     .btn-cover:hover {
       background-color: #f0f0f0;
@@ -87,6 +100,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     .logo {
       font-size: 1.2rem;
@@ -232,6 +248,9 @@
       position: relative;
       border: 2px solid var(--border-color);
       border-radius: 6px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
     .slider-wrapper {
       display: flex;
@@ -249,6 +268,9 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      /* subtle fade for each slide */
+      opacity: 0;
+      animation: fadeInSlide 0.8s forwards;
     }
     .slider-nav {
       position: absolute;
@@ -266,6 +288,7 @@
       padding: 0.5rem 1rem;
       cursor: pointer;
       border-radius: 4px;
+      transition: background-color 0.2s;
     }
     .slider-nav button:hover {
       background-color: rgba(0,0,0,0.6);
@@ -277,6 +300,43 @@
       text-align: center;
       padding: 1rem 1.5rem;
       color: #fff;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeInSlide {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* Our "reveal" class for IntersectionObserver */
+    .reveal {
+      opacity: 0; 
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Once the .slider-container has the "active" class, it fades in */
+    .slider-container.active {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* Responsive */
@@ -331,8 +391,9 @@
       </ul>
     </nav>
   </header>
+
   <!-- SECTION: DEVELOPER PROFILE (moved above timeline) -->
-  <section id="devProfile">
+  <section id="devProfile" class="reveal">
     <h2>About Landmark Development</h2>
     <div class="section-content">
       <h3>Our Professional Team</h3>
@@ -354,7 +415,7 @@
       <h3>Notable Projects</h3>
       <ul style="line-height:1.7;">
         <li><strong>Hulhumale Lot 11269 (2019)</strong>: 3 story residential building with 95% occupancy in 6 months.</li>
-        <li><strong>Hulhumale lot 11245 (2021)</strong>: 6 story residential builiding featuring featuring modern design &amp; eco-friendly tech.</li>
+        <li><strong>Hulhumale lot 11245 (2021)</strong>: 6 story residential builiding featuring modern design &amp; eco-friendly tech.</li>
         <li><strong>Hulhumale lot 11192 (2022)</strong>: 6 story end user model serviced apartments.</li>
         <li><strong>Ma.New Mexico (2023)</strong>: 10 story building with spacious and modern living facilities.</li>
         <li><strong>Manta Island Residence (2025)</strong>: 3 story building with warehouse and modern living facilities.</li>
@@ -364,7 +425,7 @@
   </section>
   
   <!-- SECTION 1: EXEC SUMMARY -->
-  <section id="execSummary">
+  <section id="execSummary" class="reveal">
     <h2>Executive Summary</h2>
     <div class="section-content">
       <p>
@@ -381,7 +442,7 @@
   </section>
 
   <!-- SECTION 2: LOCATION & DEVELOPMENT DETAILS -->
-  <section id="location">
+  <section id="location" class="reveal">
     <h2>Location &amp; Development Details</h2>
     <div class="section-content">
       <div class="site-container" style="display: flex; flex-wrap: wrap; gap: 2rem;">
@@ -392,7 +453,7 @@
             <li>Land Area: <strong>2,850 sqft</strong></li>
             <li>Floor Area (gross): <strong>2,850 sqft</strong> typical floors</li>
             <li>Usable Rental: <strong>2,273 sqft</strong> per floor</li>
-            <li>Building will have 2 Lifts to carter to multiple clients</li>
+            <li>Building will have 2 Lifts to cater to multiple clients</li>
             <li>Building has a dedicated garbage area and a fire pump system along with its own transformer system for stable power supply</li>
           </ul>
         </div>
@@ -414,7 +475,7 @@
       </div>
 
       <h3>Maps</h3>
-      <div class="slider-container">
+      <div class="slider-container reveal">
         <div class="slider-wrapper" id="sliderWrapper">
           <div class="slider-slide">
             <img src="https://i.postimg.cc/vHzYm6tw/temp-Image-B3-Ft-H6.avif" alt="Map 1">
@@ -430,7 +491,7 @@
       </div>
 
       <h3>Site Drawings</h3>
-      <div class="slider-container">
+      <div class="slider-container reveal">
         <div class="slider-wrapper">
           <!-- Add site drawings if available -->
           <div class="slider-slide">
@@ -440,7 +501,7 @@
       </div>
 
       <h3>Renders</h3>
-      <div class="slider-container">
+      <div class="slider-container reveal">
         <div class="slider-wrapper">
           <!-- Add more renders as needed -->
           <div class="slider-slide">
@@ -448,37 +509,37 @@
           </div>
         </div>
       </div>
-<!-- Nearby Places -->
-<h3>Nearby Places & Travel Distances</h3>
-<div class="site-container" style="display: flex; flex-wrap: wrap; gap: 2rem;">
-  <!-- Column 1: Key Locations -->
-  <div class="site-column" style="flex: 1 1 300px; background-color: #2A3340; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
-    <h4 style="margin-bottom: 0.5rem; color: var(--accent-color);">Key Locations</h4>
-    <ul style="line-height: 1.7;">
-      <li><strong>Malé Market (Local Produce)</strong> - <span style="color: var(--accent-color);">10 min walk</span></li>
-      <li><strong>Male' Wholesale Market</strong> - <span style="color: var(--accent-color);">8 min walk</span></li>
-      <li><strong>Aminiya School</strong> - <span style="color: var(--accent-color);">5 min drive</span></li>
-      <li><strong>STO Trade Center</strong> - <span style="color: var(--accent-color);">10 min walk</span></li>
-      <li><strong>AMDC Clinic</strong> - <span style="color: var(--accent-color);">2 min walk</span></li>
-      <li><strong>IGMH</strong> - <span style="color: var(--accent-color);">5 min drive</span></li> 
-    </ul>
-  </div>
-  <!-- Column 2: Transport & Connectivity -->
-  <div class="site-column" style="flex: 1 1 300px; background-color: #2A3340; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
-    <h4 style="margin-bottom: 0.5rem; color: var(--accent-color);">Transport & Connectivity</h4>
-    <ul style="line-height: 1.7;">
-      <li><strong>Jetty No. 1 (Ferries & Boats)</strong> - <span style="color: var(--accent-color);">7 min walk</span></li>
-      <li><strong>Velana International Airport</strong> - <span style="color: var(--accent-color);">10 min drive</span></li>
-      <li><strong>Bus Terminal</strong> - <span style="color: var(--accent-color);">6 min walk</span></li>
-      <li><strong>Sinamale Bridge Access</strong> - <span style="color: var(--accent-color);">9 min drive</span></li>
-    </ul>
-  </div>
-</div>
+      <!-- Nearby Places -->
+      <h3>Nearby Places & Travel Distances</h3>
+      <div class="site-container" style="display: flex; flex-wrap: wrap; gap: 2rem;">
+        <!-- Column 1: Key Locations -->
+        <div class="site-column" style="flex: 1 1 300px; background-color: #2A3340; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
+          <h4 style="margin-bottom: 0.5rem; color: var(--accent-color);">Key Locations</h4>
+          <ul style="line-height: 1.7;">
+            <li><strong>Malé Market (Local Produce)</strong> - <span style="color: var(--accent-color);">10 min walk</span></li>
+            <li><strong>Male' Wholesale Market</strong> - <span style="color: var(--accent-color);">8 min walk</span></li>
+            <li><strong>Aminiya School</strong> - <span style="color: var(--accent-color);">5 min drive</span></li>
+            <li><strong>STO Trade Center</strong> - <span style="color: var(--accent-color);">10 min walk</span></li>
+            <li><strong>AMDC Clinic</strong> - <span style="color: var(--accent-color);">2 min walk</span></li>
+            <li><strong>IGMH</strong> - <span style="color: var(--accent-color);">5 min drive</span></li> 
+          </ul>
+        </div>
+        <!-- Column 2: Transport & Connectivity -->
+        <div class="site-column" style="flex: 1 1 300px; background-color: #2A3340; padding: 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
+          <h4 style="margin-bottom: 0.5rem; color: var(--accent-color);">Transport & Connectivity</h4>
+          <ul style="line-height: 1.7;">
+            <li><strong>Jetty No. 1 (Ferries & Boats)</strong> - <span style="color: var(--accent-color);">7 min walk</span></li>
+            <li><strong>Velana International Airport</strong> - <span style="color: var(--accent-color);">10 min drive</span></li>
+            <li><strong>Bus Terminal</strong> - <span style="color: var(--accent-color);">6 min walk</span></li>
+            <li><strong>Sinamale Bridge Access</strong> - <span style="color: var(--accent-color);">9 min drive</span></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- SECTION 3: PRICING & PAYMENT -->
-  <section id="pricing">
+  <section id="pricing" class="reveal">
     <h2>Pricing &amp; Payment</h2>
     <div class="section-content">
       <div class="pricing-container">
@@ -512,7 +573,7 @@
   </section>
 
   <!-- MORTGAGE SECTION -->
-  <section id="mortgageCalc">
+  <section id="mortgageCalc" class="reveal">
     <h2>Mortgage Calculator</h2>
     <div class="section-content">
       <p>
@@ -583,7 +644,7 @@
   </section>
 
   <!-- SECTION 4: ROI & RENTAL PROJECTIONS -->
-  <section id="roiSection">
+  <section id="roiSection" class="reveal">
     <h2>ROI &amp; Rental Projections</h2>
     <div class="section-content">
       <p>
@@ -646,7 +707,7 @@
   </section>
 
   <!-- SECTION 5: RESALE & EXIT STRATEGY -->
-  <section id="exit">
+  <section id="exit" class="reveal">
     <h2>Resale &amp; Exit Strategy</h2>
     <div class="section-content">
       <p>
@@ -705,7 +766,7 @@
 
 
   <!-- SECTION 6: CONSTRUCTION TIMELINE -->
-  <section id="timeline">
+  <section id="timeline" class="reveal">
     <h2>Construction Timeline</h2>
     <div class="section-content">
       <li><strong>Q4 2022</strong>: Agreement Signed</li>
@@ -729,57 +790,56 @@
   </section>
 
   <!-- SECTION: WHY INVEST? -->
-<section id="whyInvest">
-  <h2>Why Invest in This Property?</h2>
-  <div class="section-content">
-    <p>
-      Investing in this premium property offers a unique opportunity to secure high returns in the thriving Malé real estate market.
-      Here’s why this project stands out:
-    </p>
-    <ul style="line-height:1.7;">
-      <li><strong>Prime Location:</strong> Situated near Malé’s key business hubs and transport links.</li>
-      <li><strong>High Rental Yield:</strong> Projected rental returns of <strong>8% - 12%</strong> annually.</li>
-      <li><strong>Capital Appreciation:</strong> Property values in Malé have increased by <strong>5-8% per year</strong>.</li>
-      <li><strong>Strong Developer Track Record:</strong> Landmark Development has successfully delivered multiple high-end projects.</li>
-      <li><strong>Flexible Payment Plans:</strong> Multiple financing options available, including bank mortgage support.</li>
-      <li><strong>Turnkey Investment:</strong> Fully managed property with optional rental management services.</li>
-    </ul>
-  </div>
-</section>
-
-<!-- SECTION: NEXT STEPS -->
-<section id="nextSteps">
-  <h2>Next Steps & How to Get Involved</h2>
-  <div class="section-content">
-    <p>
-      Ready to invest? Follow these steps to secure your unit in this exclusive development:
-    </p>
-    <div class="pricing-container">
-      <!-- Step 1 -->
-      <div class="pricing-column">
-        <h4>Step 1: Schedule a Consultation</h4>
-        <p>Contact our investment team to discuss pricing, financing, and available units.</p>
-        <button class="btn" onclick="window.location.href='mailto:a@landmark.com.mv'">Contact Us</button>
-      </div>
-
-      <!-- Step 2 -->
-      <div class="pricing-column">
-        <h4>Step 2: Site Visit & Due Diligence</h4>
-        <p>Book a visit to our project site in Malé and review detailed plans with our team.</p>
-      </div>
-
-      <!-- Step 3 -->
-      <div class="pricing-column">
-        <h4>Step 3: Reservation & Payment</h4>
-        <p>Reserve your unit with an initial deposit and finalize ownership transfer.</p>
-      </div>
+  <section id="whyInvest" class="reveal">
+    <h2>Why Invest in This Property?</h2>
+    <div class="section-content">
+      <p>
+        Investing in this premium property offers a unique opportunity to secure high returns in the thriving Malé real estate market.
+        Here’s why this project stands out:
+      </p>
+      <ul style="line-height:1.7;">
+        <li><strong>Prime Location:</strong> Situated near Malé’s key business hubs and transport links.</li>
+        <li><strong>High Rental Yield:</strong> Projected rental returns of <strong>8% - 12%</strong> annually.</li>
+        <li><strong>Capital Appreciation:</strong> Property values in Malé have increased by <strong>5-8% per year</strong>.</li>
+        <li><strong>Strong Developer Track Record:</strong> Landmark Development has successfully delivered multiple high-end projects.</li>
+        <li><strong>Flexible Payment Plans:</strong> Multiple financing options available, including bank mortgage support.</li>
+        <li><strong>Turnkey Investment:</strong> Fully managed property with optional rental management services.</li>
+      </ul>
     </div>
-    <p style="margin-top:1rem;">
-      <em>For inquiries, email us at <a href="mailto:a@landmark.com.mv">a@landmark.com.mv</a> or call <strong>+960 XXXX XXXX</strong>.</em>
-    </p>
-  </div>
-</section>
+  </section>
 
+  <!-- SECTION: NEXT STEPS -->
+  <section id="nextSteps" class="reveal">
+    <h2>Next Steps & How to Get Involved</h2>
+    <div class="section-content">
+      <p>
+        Ready to invest? Follow these steps to secure your unit in this exclusive development:
+      </p>
+      <div class="pricing-container">
+        <!-- Step 1 -->
+        <div class="pricing-column">
+          <h4>Step 1: Schedule a Consultation</h4>
+          <p>Contact our investment team to discuss pricing, financing, and available units.</p>
+          <button class="btn" onclick="window.location.href='mailto:a@landmark.com.mv'">Contact Us</button>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="pricing-column">
+          <h4>Step 2: Site Visit & Due Diligence</h4>
+          <p>Book a visit to our project site in Malé and review detailed plans with our team.</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="pricing-column">
+          <h4>Step 3: Reservation & Payment</h4>
+          <p>Reserve your unit with an initial deposit and finalize ownership transfer.</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem;">
+        <em>For inquiries, email us at <a href="mailto:a@landmark.com.mv">a@landmark.com.mv</a> or call <strong>+960 XXXX XXXX</strong>.</em>
+      </p>
+    </div>
+  </section>
 
   <!-- FOOTER -->
   <footer>
@@ -804,7 +864,6 @@
           rentIncreaseRate=0.02;
 
     // Discrete 2% vacancy every 3rd year
-    // We'll define a function for that logic:
     function getVacancyLoss(year, annualRent) {
       return (year%3===0) ? (annualRent*0.02) : 0;
     }
@@ -827,12 +886,9 @@
       roiTableBody.innerHTML= '';
 
       Object.entries(scenarioRates).forEach(([scenarioName, sqftPrice])=>{
-        // We'll check the "first year rent" approach
         let monthlyRent= sqftPrice* floorData.sqft;
         let annualRent= monthlyRent*12;
-        // We'll consider "Year 1" only for the summary row
-        // discrete vacancy => year3 => not in summary row, so 0 here
-        let vacancyLoss= 0;
+        let vacancyLoss= 0; // not applying discrete for Year1 summary row
         let mgmtFee= mgmtActive? (annualRent* mgmtFeeRate/100):0;
         let maintenanceYearly= monthlyMaintenanceFee*12;
         let netIncome= annualRent- vacancyLoss- mgmtFee- maintenanceYearly;
@@ -917,7 +973,6 @@
             monthlyRent*= (1+ rentIncreaseRate);
           }
           let annualRent= monthlyRent*12;
-          // discrete 2% vacancy every 3rd year
           let vacancy= (y%3===0)? (annualRent*0.02) : 0;
           let mgmtFeeVal= mgmtActive? (annualRent*mgmtFeeRate/100) : 0;
           let maintenanceYearly= monthlyMaintenanceFee*12;
@@ -1001,7 +1056,7 @@
       let basePrice= floorData.purchasePrice;
       if(renovationActive) basePrice+= renovationCost;
 
-      // appreciation
+      // appreciation every 2 years by 2%
       let periods= Math.floor(yrs/2);
       let finalVal= basePrice;
       for(let i=0; i<periods; i++){
@@ -1016,7 +1071,7 @@
           monthlyRent*= (1+ rentIncreaseRate);
         }
         let annualRent= monthlyRent*12;
-        let vacancy= (y%3===0)? (annualRent*0.02) : 0; // 2% every 3rd year
+        let vacancy= (y%3===0)? (annualRent*0.02) : 0; 
         let mgmtFeeVal= mgmtActive? (annualRent* mgmtFeeRate/100): 0;
         let maintenanceYearly= monthlyMaintenanceFee*12;
         let net= annualRent- vacancy - mgmtFeeVal - maintenanceYearly;
@@ -1123,7 +1178,7 @@
      * 6. SLIDER IMAGES
      ************************************************************/
     let currentSlide=0;
-    const totalSlides=2; // changed to 2 for Maps slides
+    const totalSlides=2; // for the first Maps slider
     function showSlide(index){
       const sliderWrapper= document.getElementById('sliderWrapper');
       if(!sliderWrapper) return;
@@ -1137,9 +1192,10 @@
     function nextSlide(){ showSlide(currentSlide+1);}
 
     /************************************************************
-     * 7. INIT
+     * 7. INIT & Reveal Animations
      ************************************************************/
     function init() {
+      // ROI + EXIT TABLE INIT
       document.getElementById('floorSelector').addEventListener('change', updateROI);
       document.getElementById('mgmtFeeToggle').addEventListener('change', updateROI);
       document.getElementById('renovationToggle').addEventListener('change', updateROI);
@@ -1157,6 +1213,27 @@
       updateDownPaymentInfo();
       buildMortgageTable();
       showSlide(0);
+
+      // Intersection Observer for reveals
+      const revealObserver = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            entry.target.classList.add('active');
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+
+      // Observe all .reveal elements
+      document.querySelectorAll('.reveal').forEach(el=>{
+        revealObserver.observe(el);
+      });
+
+      // Observe the sliders so they fade in
+      document.querySelectorAll('.slider-container').forEach(slider=>{
+        revealObserver.observe(slider);
+      });
     }
   </script>
 
